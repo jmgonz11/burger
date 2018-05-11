@@ -2,26 +2,9 @@ var connection = require("../config/connection.js");
 
 var orm = {
     all: function(tableInput, cb) {
-      var queryString = "SELECT * FROM " + tableInput + ";";
-      connection.query(queryString, function(err, result) {
-        if (err) {
-          throw err;
-        }
-        cb(result);
-      });
-    },
-    create: function(table, cols, vals, cb) {
-      var queryString = "INSERT INTO " + table;
-  
-      queryString += " (";
-      queryString += cols.toString();
-      queryString += ") ";
-      queryString += "VALUES (";
-      queryString += ") ";
-  
-      console.log(queryString);
-  
-      connection.query(queryString, vals, function(err, result) {
+
+      var query = "SELECT * FROM " + tableInput + ";";
+      connection.query(query, function(err, result) {
         if (err) {
           throw err;
         }
@@ -29,16 +12,37 @@ var orm = {
       });
     },
 
+
+create: function(table, cols, vals, cb) {
+
+      var query = "INSERT INTO " + table;
+  
+      query += " (";
+      query += cols.toString();
+      query += ") ";
+      query += "VALUES (";
+      query += ") ";
+  
+  
+      connection.query(query, vals, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        cb(result);
+      });
+    },
+
+
+
     update: function(table, objColVals, condition, cb) {
-      var queryString = "UPDATE " + table;
+      var query = "UPDATE " + table;
   
-      queryString += " SET ";
-      queryString += objToSql(objColVals);
-      queryString += " WHERE ";
-      queryString += condition;
+      query += " SET ";
+      query += objToSql(objColVals);
+      query += " WHERE ";
+      query += condition;
   
-      console.log(queryString);
-      connection.query(queryString, function(err, result) {
+      connection.query(query, function(err, result) {
         if (err) {
           throw err;
         }
@@ -47,6 +51,11 @@ var orm = {
       });
     }
   };
+
+
+
+
+
   
 
   module.exports = orm;
